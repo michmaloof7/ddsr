@@ -38,7 +38,7 @@ class BaseDrawer extends StatelessWidget{
         padding: EdgeInsets.zero,
         children: <Widget>[
           ListTile(
-            title: Text('Item 1'),
+            title: Text('First Page'),
             onTap: (){
               if(currentRoute == '/') return;
               Navigator.pop(context);
@@ -46,7 +46,7 @@ class BaseDrawer extends StatelessWidget{
             }
           ),
           ListTile(
-            title: Text('Item 2'),
+            title: Text('Second Page'),
             onTap: (){
               if(currentRoute == '/second') return;
               Navigator.pop(context);

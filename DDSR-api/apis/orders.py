@@ -4,46 +4,28 @@ from datetime import date, datetime
 
 api = Namespace('Orders', description="Api endpoints for order related operations")
 
-
-order = client = food = api.schema_model('Order', {
-    'type': 'object',
-    'required': ['client','food'],
-    'properties': {
-        'id': {
-            'type': 'string',
-            'description': 'The id of the order',
-            'example': 1
-        },
-        'client': {
-            '$ref' : '#/definitions/client'
-        },
-        'deadline': {
-            'type': 'string',
-            'description': 'The deadline of the order',
-            'format': 'date',
-            'example': '2019-06-16'
-        },
-        'items': {
-            'type': 'array',
-            'description': 'The food items of the order',
-            'items': {
-                '$ref': '#/definitions/food'
-            },
-            'default': []
-        },
-        'delivered': {
-            'type': 'number',
-            'description': 'Status of the order',
-            'example': 1
-        }
-
-    }
+#food item model
+food = api.model('Food', {
+    'id': fields.String(description='The id of the food item'),
+    'name': fields.String(required=True,description='The name of the food item'),
+    'cost': fields.Integer(required=True,description='The cost of the food item'),
+    'type': fields.Integer(required=True,description='The type of the food, salty or sweet')
 })
 
+#order model
+order = api.model('Orders', {
+    'id': fields.String(description='The id of the order'),
+    'client_id': fields.String(required=True,description='The client that made the order'),
+    'deadline': fields.DateTime(required=True,description='The deadline of the order'),
+    'items': fields.List(fields.Nested(food),required=True,description='The food included in the order'),
+    'status': fields.Integer(required=True,default=0,description='The status of the order')
+})
+
+
 DEFAULT_ORDER = [{'id':'a12343211', 
-                'client':'Luis Fernandez',
-                'Deadline': '2019-07-03',
-                'Items': [{
+                'client_id':'Luis Fernandez',
+                'deadline': '2019-07-03',
+                'items': [{
                     'id':'a123432', 
                     'name':'Arroz de coco',
                     'cost': 200,
@@ -55,13 +37,14 @@ DEFAULT_ORDER = [{'id':'a12343211',
                     'cost': 100,
                     'type': 1
                     }],
-                'Delivered': 1
+                'status': 1
                 },
             ]
 
-@api.route('/order')
+@api.route('/')
 class ordertList(Resource):
     @api.doc('order_list')
+    @api.marshal_list_with(order)
     def get(self):
         return DEFAULT_ORDER
 

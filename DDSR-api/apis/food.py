@@ -3,31 +3,12 @@ from flask_restplus import Namespace, Resource, fields
 
 api = Namespace('food',description='Operations related to the food components')
 
-food = api.schema_model('Food', {
-    'type': 'object',
-    'properties': {
-        'id': {
-            'type': 'string',
-            'description': 'The id of the food item',
-            'example': 1
-        },
-        'name': {
-            'type': 'string',
-            'description': 'The name of the food item',
-            'example': 'arroz de coco',
-        },
-        'cost': {
-            'type': 'number',
-            'description': 'The price of the food item',
-            'example': 2500
-        },
-        'type': {
-            'type': 'number',
-            'description': 'Type of the food item, sweet or salty',
-            'example': 1,
-        }
-        
-    }
+
+food = api.model('Food', {
+    'id': fields.String(description='The id of the food item'),
+    'name': fields.String(required=True,description='The name of the food item'),
+    'cost': fields.Integer(required=True,description='The cost of the food item'),
+    'type': fields.Integer(required=True,description='The type of the food, salty or sweet')
 })
 
 DEFAULT_FOOD = [{'id':'a123432', 
@@ -41,9 +22,10 @@ DEFAULT_FOOD = [{'id':'a123432',
                 'type': 1
                 }]
 
-@api.route('/food')
+@api.route('/')
 class foodList(Resource):
     @api.doc('food_list')
+    @api.marshal_with(food,envelope='resource')
     def get(self):
         return DEFAULT_FOOD
     

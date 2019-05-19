@@ -3,11 +3,12 @@ from flask_restplus import Namespace, Resource, fields
 
 api = Namespace('food',description='Operations related to the food components')
 
-food = api.model('Food',{
-    'id': fields.String(required=True, description='Food id'),
-    'name': fields.String(required=True, description='The food name'),
-    'cost': fields.Integer(required=True, description='Food cost'),
-    'type': fields.Integer(required=True, description='Details of this food component')
+food = api.model('Food', {
+    'id': fields.String(description='The id of the food item'),
+    'name': fields.String(required=True,description='The name of the food item'),
+    'cost': fields.Integer(required=True,description='The cost of the food item'),
+    'type': fields.Integer(required=True,description='The type of the food, salty or sweet')
+
 })
 
 DEFAULT_FOOD = [{'id':'a123432', 
@@ -21,10 +22,16 @@ DEFAULT_FOOD = [{'id':'a123432',
                 'type': 1
                 }]
 
+
 @api.route('/food')
 class FoodList(Resource):
     @api.doc('food_list')
     @api.marshal_list_with(food)
+
+@api.route('/')
+class foodList(Resource):
+    @api.doc('food_list')
+    @api.marshal_with(food,envelope='resource')
     def get(self):
         return DEFAULT_FOOD
     

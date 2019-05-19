@@ -12,3 +12,4 @@ api = Api(blueprint, title='API REST', version='1.0.0',
 api.add_namespace(food, path='/foods')
 api.add_namespace(client, path='/clients')
 api.add_namespace(order, path='/orders')
+

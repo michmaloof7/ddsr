@@ -31,7 +31,7 @@ class BaseDrawer extends StatelessWidget{
             onTap: (){
               if(currentRoute == '/second') return;
               Navigator.pop(context);
-              Navigator.of(context).pushNamed('/second');
+              Navigator.of(context).pushNamed('/archive');
             }
           ),
         ],

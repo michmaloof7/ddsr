@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ddsr/functs/drawer.dart';
 
-class SecondPage extends StatelessWidget {
+class ArchivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

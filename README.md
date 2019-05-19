@@ -57,7 +57,7 @@ git add, adds all changes you make in the files to the git tracking, git commit 
         - git checkout feature/<'feature-name'>
         - git rebase ddsr/develop
     
-    What the last step does is basically. 
-    People did a lot of changes to develop or master while you were working on your branch, they are now quite ahead. With fetch all you retrieve all said changes and then you checkout to your feature branch and use git rebase.
+        What the last step does is basically. 
+        People did a lot of changes to develop or master while you were working on your branch, they are now quite ahead. With fetch all you retrieve all said changes and then you checkout to your feature branch and use git rebase.
 
-    What rebase does is taking all those commits and changes and dumping them in your local branches without your feature branch getting merged but still getting those new features or corrections other people made.
+        What rebase does is taking all those commits and changes and dumping them in your local branches without your feature branch getting merged but still getting those new features or corrections other people made.

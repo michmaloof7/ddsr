@@ -15,7 +15,8 @@ food = api.schema_model('Food', food)
 class foodList(Resource):
     @api.doc(summary='Get all foods', description='Get all food',responses={200: ('food collection', [food])})
     def get(self):
-        return [food for foods in Database().get_foods()]
+        return [{**fl, '_id': str(fl['_id'])}
+                for fl in Database().get_foods()]
     
 #get food by id
 @api.route('/<string:food_id>')

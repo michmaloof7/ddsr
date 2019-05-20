@@ -1,14 +1,17 @@
 import pymongo
 import json
+from bson.objectid import ObjectId
+
+
 
 #class in charge of all the database transactions
 
 class Database():
 
     _db_client = pymongo.MongoClient('mongodb://localhost:27017/')
-    _default_db = _db_client.db
+    #we set up the default database for our collections which is local
+    _default_db = _db_client.local
     _instance = None
-
 
     def __init__(self):
         self.client = Database._default_db.client
@@ -22,10 +25,10 @@ class Database():
 
     #get all foods
     def get_foods(self):
-        return [food for foods in self.food.find()]
+        return [food for food in self.food.find()]
     
     #get a food by id
     def get_food(self, id):
-        return self.food.find({"_id": id})
+        return self.food.find({"_id": ObjectId(id)})
 
     

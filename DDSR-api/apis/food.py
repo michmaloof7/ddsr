@@ -1,52 +1,30 @@
 from flask import request
 from flask_restplus import Namespace, Resource, fields
+from database.database import Database
+from database.swagger_models import food
+
 
 api = Namespace('food',description='Operations related to the food components')
 
-food = api.model('Food', {
-    'id': fields.String(description='The id of the food item'),
-    'name': fields.String(required=True,description='The name of the food item'),
-    'cost': fields.Integer(required=True,description='The cost of the food item'),
-    'type': fields.Integer(required=True,description='The type of the food, salty or sweet')
-
-})
-
-DEFAULT_FOOD = [{'id':'a123432', 
-                'name':'Arroz de coco',
-                'cost': 200,
-                'type': 1},
-                {
-                'id':'a2343212', 
-                'name':'Arroz blanco',
-                'cost': 100,
-                'type': 1
-                }]
+#swagger schemas
+food = api.schema_model('Food', food)
 
 
-@api.route('/food')
-class FoodList(Resource):
-    @api.doc('food_list')
-    @api.marshal_list_with(food)
-
+#get all foods
 @api.route('/')
 class foodList(Resource):
-    @api.doc('food_list')
-    @api.marshal_with(food,envelope='resource')
+    @api.doc(description='Get all food', responses={200: ('food collection', [food])})
     def get(self):
-        return DEFAULT_FOOD
+        return [{**fl, '_id': str(fl['_id'])}
+                for fl in Database().get_foods()]
     
-@api.route('/<id>')
-@api.param('id', 'Food identifier')
-@api.response('404', 'Food not found')
-class Food(Resource):
-    @api.doc('get_food_by_id')
-    @api.marshal_with(food)
-    def get(self, id):
-        try:
-            for food in DEFAULT_FOOD:
-                if food['id'] == id:
-                    return food
-        except:
-            api.abort(404)
-        
-
+#get food by id
+@api.route('/<string:food_id>')
+@api.param('food_id','food identifier')
+class FoodById(Resource):
+    @api.doc(description='Returns a food item',
+             responses={200: ('Returned food item', food),
+                        404: 'Food item not found'})
+    def get(self, food_id):
+        return [{**fd, '_id': str(fd['_id'])}
+                for fd in Database().get_food(food_id)][0]

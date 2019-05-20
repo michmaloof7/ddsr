@@ -6,10 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-
-flask = "*"
-flask-restplus = "*"
-flask-cors = "*"
 aniso8601 = "==6.0.0"
 attrs = "==19.1.0"
 click = "==7.0"
@@ -24,7 +20,7 @@ Flask-Cors = "==3.0.7"
 Jinja2 = "==2.10.1"
 MarkupSafe = "==1.1.1"
 Werkzeug = "==0.15.3"
-
+pymongo = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3"

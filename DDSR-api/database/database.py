@@ -23,6 +23,8 @@ class Database():
             cls._instance = object.__new__(cls)
         return cls._instance
 
+    #-------- FOOD OPERATIONS -------#
+    
     #get all foods
     def get_foods(self):
         return [food for food in self.food.find()]
@@ -31,4 +33,25 @@ class Database():
     def get_food(self, id):
         return self.food.find({"_id": ObjectId(id)})
 
-    
+    #get a food by type
+    def get_food_type(self, food_type):
+        return [food for food in self.food.find({"type": food_type})]
+
+    #add food
+    def Add_Food(self, new_food):
+        check = self.food.find({'name': new_food['name']})
+        if check:
+            return
+        self.food.insert_many(new_food)
+
+    #update food
+    def Update_Food(self, id, data):
+        food = self.food.find({"_id": ObjectId(id)})
+        if not food:
+            return
+        
+        self.food.replace_one({
+                '_id': ObjectId(id)
+            },
+            data
+        )

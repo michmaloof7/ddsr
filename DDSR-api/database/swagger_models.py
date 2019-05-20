@@ -3,6 +3,7 @@
 
 food = {
     'type': 'object',
+    'required': ['name', 'cost', 'type'],
     'properties': {
         '_id': {
             'type': 'string',
@@ -25,13 +26,15 @@ food = {
         }
     }
 }
-
+""" ---- DIDNT WANT TO BE REFFERENCED INTO CLIENTS
+        SO I WILL BANISH IT TO THE SHADOW REALM ----
 address = {
     'type': 'object',
     'properties': {
         'city': {
             'type': 'string',
-            'description': 'The city where the client resides'
+            'description': 'The city where the client resides',
+            'example': 'Cartagena'
         },
         'street_address': {
             'type': 'string',
@@ -40,9 +43,11 @@ address = {
         }
     }
 }
+"""
 
 client = {
     'type': 'object',
+    'required': ['name', 'phone'],
     'properties': {
         '_id': {
         'type': 'string',
@@ -59,9 +64,18 @@ client = {
             'example': 31024417
         },
         'address': {
-            'type': 'array',
-            'items': {
-                '$ref': '#/definitions/Address'
+            'type': 'object',
+            'properties': {
+                'city': {
+                'type': 'string',
+                'description': 'The city where the client resides',
+                'example': 'Cartagena'
+                },
+                'street_address': {
+                'type': 'string',
+                'description': 'The full adress of the client',
+                'example': 'Bocagrande, calle 3, carrera 1'
+                }
             }
         }
     }
@@ -69,6 +83,7 @@ client = {
 
 order = {
     'type': 'object',
+    'required': ['client_id', 'deadline', 'items','status'],
     'properties': {
         '_id': {
             'type': 'string',

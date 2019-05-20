@@ -13,17 +13,16 @@ food = api.schema_model('Food', food)
 #get all foods
 @api.route('/')
 class foodList(Resource):
-    @api.doc(summary='Get all foods', description='Get all food',responses={200: ('food collection', [food])})
+    @api.doc(description='Get all food', responses={200: ('food collection', [food])})
     def get(self):
         return [{**fl, '_id': str(fl['_id'])}
                 for fl in Database().get_foods()]
     
 #get food by id
 @api.route('/<string:food_id>')
-@api.param('food_id', description='Food identifier', required=True, type='string')
-@api.response('404', 'Food not found')
+@api.param('food_id','food identifier')
 class FoodById(Resource):
-    @api.doc(summary='get food by id',description='Returns a food item',
+    @api.doc(description='Returns a food item',
              responses={200: ('Returned food item', food),
                         404: 'Food item not found'})
     def get(self, food_id):

@@ -39,10 +39,10 @@ class Database():
 
     #add food
     def Add_Food(self, new_food):
-        check = self.food.find({'name': new_food['name']})
+        check = self.food.find_one({'name': new_food['name']})
         if check:
             return
-        self.food.insert_many(new_food)
+        self.food.insert_one(new_food)
 
     #update food
     def Update_Food(self, id, data):

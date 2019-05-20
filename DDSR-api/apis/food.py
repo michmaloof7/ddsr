@@ -55,8 +55,8 @@ class AddFood(Resource):
         if errors:
             return {'message': 400}
         if new_foods:
-            check = Database().Add_Food(new_foods)
-        return { 'message': ('Food added') if not errors or not check else
+            Database().Add_Food(new_foods)
+        return { 'message': ('Food added') if not errors else
                 ("The food wasn't added due to error")}, 200 if new_foods else 400
 
 #update a food item

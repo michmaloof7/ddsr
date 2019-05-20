@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 
 class Database():
 
-    _db_client = pymongo.MongoClient('mongodb://localhost:27017/')
+    _db_client = pymongo.MongoClient('mongodb://mongodb:27017/')
     #we set up the default database for our collections which is local
     _default_db = _db_client.local
     _instance = None
@@ -55,3 +55,11 @@ class Database():
             },
             data
         )
+
+    #delete food
+    def Delete_Food(self, id):
+        try:
+            self.food.delete_one({'_id': ObjectId(id)})
+            return 200
+        except ValueError as e:
+            return e

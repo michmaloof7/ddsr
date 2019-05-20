@@ -2,7 +2,7 @@ from flask import request, abort
 from flask_restplus import Namespace, Resource, fields, reqparse
 from database.database import Database
 from database.swagger_models import food
-from database.marshmallow_models import NewFoodSchema, FoodSchema
+from database.marshmallow_models import NewFoodSchema, FoodSchema, ObjectIdField
 from marshmallow import Schema
 
 import requests
@@ -74,3 +74,15 @@ class UpdateFood(Resource):
             Database().Update_Food(food_id,update_food)
         return {'message': ('food updated') if not errors else
                 ('The food wasnt updated')}, 200 if update_food else 400
+
+@api.route('/delete/<string:food_id>')
+class DeleteFood(Resource):
+    @api.doc(description='Delete the food item',
+             responses= {200: 'Food deleted',
+                         400: 'Error deleting'})
+    def post(self,food_id):
+        response = Database().Delete_Food(food_id)
+        if response == 200:
+            return {'message': 'Food Deleted'}, 200
+        else:
+            return {'meesage': 'Error Deleting Food'}, 400

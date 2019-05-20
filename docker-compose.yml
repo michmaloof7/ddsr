@@ -1,0 +1,23 @@
+version: '2.0'
+
+services:
+  ddsr-api:
+    build: ./DDSR-api
+    ports:
+      - 5000:5000
+    volumes:
+      - ./DDSR-api:/app
+    depends_on:
+      - mongodb 
+ 
+  mongodb:
+    image: mongo
+    container_name: "mongodb"
+    environment:
+      - MONGO_DATA_DIR=/usr/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/db:/usr/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet

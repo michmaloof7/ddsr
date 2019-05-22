@@ -26,3 +26,6 @@ and see any change you make.
 If you decide to use docker-compose then you need to have a working installation of docker and docker-compose in your machine. Then just run: suno docker-compose up from the projects root.
 
 That's all, it will be running the same ports as usual.
+
+If you attempt to use docker-compose, enter database and change the database URI, to
+use mongodb instead of localhost.

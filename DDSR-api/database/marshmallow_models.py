@@ -19,7 +19,7 @@ class ObjectIdField(fields.Field):
 #ingredients fields
 class Ingredients(fields.Field):
     name = fields.Str(required=True)
-    unit = fields.Str(requiered=True)
+    unit = fields.Str(required=True)
     quantity = fields.Integer(required=True)
 
 #address fields

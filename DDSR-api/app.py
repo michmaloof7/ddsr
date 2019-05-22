@@ -6,7 +6,7 @@ from core.api_v1 import blueprint as api_v1
 
 app = Flask(__name__)
 #CORS(app)   -- CORS CONFIG
-CORS(app)
+CORS(app, resources=r'/mongo/*')
 
 #we register the blueprint of the api we will use
 app.register_blueprint(api_v1)

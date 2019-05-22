@@ -1,64 +1,82 @@
-from flask import Flask
-from flask_restplus import Namespace, Resource, fields
-from datetime import date, datetime
+from flask import Flask, request
+from flask_restplus import Namespace, Resource, fields, reqparse
+from database.swagger_models import food, order, client
+from database.marshmallow_models import NewOrderSchema, OrderSchema, FoodSchema, ClientSchema
+from database.database import Database
+import requests
 
 api = Namespace('Orders', description="Api endpoints for order related operations")
 
-#food item model
-food = api.model('Food', {
-    'id': fields.String(description='The id of the food item'),
-    'name': fields.String(required=True,description='The name of the food item'),
-    'cost': fields.Integer(required=True,description='The cost of the food item'),
-    'type': fields.Integer(required=True,description='The type of the food, salty or sweet')
-})
-
-#order model
-order = api.model('Orders', {
-    'id': fields.String(description='The id of the order'),
-    'client_id': fields.String(required=True,description='The client that made the order'),
-    'deadline': fields.DateTime(required=True,description='The deadline of the order'),
-    'items': fields.List(fields.Nested(food),required=True,description='The food included in the order'),
-    'status': fields.Integer(required=True,default=0,description='The status of the order')
-})
+#importing swagger schemas
+order = api.schema_model('Order', order)
+food = api.schema_model('Food', food)
+client = api.schema_model('Client', client)
 
 
-DEFAULT_ORDER = [{'id':'a12343211', 
-                'client_id':'Luis Fernandez',
-                'deadline': '2019-07-03',
-                'items': [{
-                    'id':'a123432', 
-                    'name':'Arroz de coco',
-                    'cost': 200,
-                    'type': 1
-                    },
-                    {
-                    'id':'a2343212', 
-                    'name':'Arroz blanco',
-                    'cost': 100,
-                    'type': 1
-                    }],
-                'status': 1
-                },
-            ]
-
+#get all the orders
 @api.route('/')
-class ordertList(Resource):
-    @api.doc('order_list')
-    @api.marshal_list_with(order)
+class orderList(Resource):
+    @api.doc(description='orders list', responses={200: ('Order collection', [order])})
     def get(self):
-        return DEFAULT_ORDER
+        return [{**od, '_id': str(od['_id'])}
+                for od in Database().Get_Orders()]
 
-@api.route('/<id>')
-@api.param('id', 'Order identifier')
-@api.response('404', 'client not found')
+#get an order by its id
+@api.route('/<string:order_id>')
+@api.param('order_id', 'Order identifier')
 class clientById(Resource):
-    @api.doc('get order by id')
-    @api.marshal_with(order,envelope='resource')
-    def get(self, id):
-        try:
-            for order in DEFAULT_ORDER:
-                if client['id'] == id:
-                    return order
-        except:
-            api.abort(404)
+    @api.doc(description='Return a single order by its id', 
+             responses={200: ('Returned order', order),
+                        404: 'Food item not found'})
+    def get(self, order_id):
+        return [{**odi, '_id': str(odi['_id'])}
+                for odi in Database().Get_Order(order_id)]
             
+#add an order
+@api.route('/add')
+@api.expect(order)
+class AddOrder(Resource):
+    @api.doc(description="Add a new order",
+            responses={200: 'Added a new order',
+                       400: "Couldn't add the order"})
+    def post(self):
+        doit = False
+        new_order, errors = NewOrderSchema.load(request,get_json(force=True) or {})
+        if errors:
+            return {'message':400}
+        if new_order:
+            Database().Add_Order(new_order)
+        return { 'message': ('Order added') if (not errors and doit) else
+                ("The Order wasn't added")}, 201 if (new_client and doit) else 400
+    
+#update a food item
+@api.route('/update/<string:order_id>')
+@api.expect(order)
+class UpdateOrder(Resource):
+    @api.doc(description='Updates an order',
+             responses={201: 'order updated',
+                        404: 'Error updating order'})
+    def put(self,order_id):
+        doit = False
+        update_order, errors = NewOrderSchema().load(request.get_json(force=True) or {})
+        if errors:
+            return {'message':404}
+        
+        if update_order:
+            doit = Database().Update_Order(order_id,update_order)
+
+        return {'message': ('order updated') if(not errors and doit) else
+                ('No matching order to update')}, 200 if (update_order and doit) else 404
+
+@api.route('/delete/<string:order_id>')
+class DeleteOrder(Resource):
+    @api.doc(description='Delete an order from database',
+             responses= {200: 'order deleted',
+                         404: 'Error deleting'})
+    def post(self,order_id):
+        response = False
+        response = Database().Delete_Order(order_id)
+        if response:
+            return {'message': 'Order Deleted'}, 200
+        else:
+            return {'meesage': 'Error No Matching Order to delete'}, 404

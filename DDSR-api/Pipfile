@@ -23,6 +23,7 @@ Werkzeug = "==0.15.3"
 pymongo = "*"
 marshmallow = "*"
 requests = "*"
+python-dateutil = "*"
 
 [requires]
 python_version = "3"

@@ -1,6 +1,8 @@
 
 # ----- Model definitions in JSON format -----
 
+#The food table is made by a combination of ingredients
+
 food = {
     'type': 'object',
     'required': ['name', 'cost', 'type'],
@@ -23,9 +25,36 @@ food = {
             'type': 'number',
             'description': 'The type of the food',
             'example': 1
+        },
+        'ingredients': {
+            'type': 'array',
+            'description': 'Ingredients used to make this food',
+            'example': '[manzanas, platano, azucar, harina]',
+            'items': {
+                'type': 'object',
+                'description': 'Each ingredient of the food',
+                'properties': {
+                    'name': {
+                        'type': 'string',
+                        'description': 'The name of the ingredient',
+                        'example': 'fresa'
+                    },
+                    'unit': {
+                        'type': 'string',
+                        'description': 'The measurement unit of this ingredient',
+                        'example': 'liters, kilograms, pieces'
+                    },
+                    'quantity': {
+                        'type': 'number',
+                        'description': 'The measured quantity of this ingredient',
+                        'example': '10 Unit, 1 Unit'
+                    }
+                }
+            }
         }
     }
 }
+
 """ ---- DIDNT WANT TO BE REFFERENCED INTO CLIENTS
         SO I WILL BANISH IT TO THE SHADOW REALM ----
 address = {

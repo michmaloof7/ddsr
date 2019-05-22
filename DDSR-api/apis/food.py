@@ -55,7 +55,7 @@ class AddFood(Resource):
         if errors:
             return {'message': 400}
         if new_foods:
-            Database().Add_Food(new_foods)
+            doit = Database().Add_Food(new_foods)
         return { 'message': ('Food added') if (not errors and doit) else
                 ("The food wasn't added, maybe duplicate a name")}, 200 if (new_foods and doit) else 404
 
@@ -73,7 +73,6 @@ class UpdateFood(Resource):
             return {'message':400}
         if update_food:
             doit = Database().Update_Food(food_id,update_food)
-            print(doit)
         return {'message': ('food updated') if(not errors and doit) else
                 ('No matching food to update')}, 200 if (update_food and doit) else 404
 

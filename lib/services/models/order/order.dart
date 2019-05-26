@@ -1,3 +1,7 @@
+// Followed the steps from here
+//https://flutter.dev/docs/development/data-and-backend/json
+//https://flutter-academy.com/work-with-json-in-flutter-part-2-json-serializable/
+
 import 'package:json_annotation/json_annotation.dart';
 import '../food/food.dart';
 import 'dart:core';

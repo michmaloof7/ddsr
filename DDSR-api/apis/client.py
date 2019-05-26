@@ -5,6 +5,8 @@ from database.swagger_models import client
 from database.marshmallow_models import NewClientSchema, ClientSchema, ObjectIdField, Address
 from marshmallow import Schema
 
+from apis.id_exchange import correct_id
+
 import requests
 
 api = Namespace('Client',description="Api endpoints for client related operations")
@@ -17,8 +19,9 @@ client = api.schema_model('Client', client)
 class clientList(Resource):
     @api.doc(description='Get all clients', responses={200: ('client collection', [client])})
     def get(self):
-        return [{**cl, '_id': str(cl['_id'])}
-                for cl in Database().Get_Clients()]
+        allclients = [{**cl, '_id': str(cl['_id'])} for cl in Database().Get_Clients()]
+        allclients = correct_id(allclients)
+        return allclients
 
 #get a client by its id
 @api.route('/<string:client_id>')
@@ -28,9 +31,8 @@ class clientById(Resource):
              responses={200: ('fetched client', client),
                         404: 'Client not found'})
     def get(self, client_id):
-        return [{**cbi, '_id': str(cbi['_id'])}
-                for cbi in Database().Get_Client(client_id)][0]    
-
+        client = [{**cbi, '_id': str(cbi['_id'])} for cbi in Database().Get_Client(client_id)][0] 
+        return  client
 
 #add a client 
 @api.route('/add')

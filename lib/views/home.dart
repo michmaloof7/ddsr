@@ -11,24 +11,52 @@ class MyHome extends StatelessWidget {
         child: Center(
           child: Column(
             children: <Widget>[
-              RaisedButton.icon(
-                icon: Icon(Icons.receipt),
-                label: Text("Registro de Pedidos"),
-                onPressed: (){Navigator.of(context).pushNamed('/archive');},
-                color: Colors.greenAccent,
+              ButtonTheme(
+                minWidth: 200,
+                child: RaisedButton.icon(
+                  icon: Icon(Icons.receipt),
+                  label: Text("Registro de Pedidos"),
+                  onPressed: (){Navigator.of(context).pushNamed('/archive');},
+                  color: Colors.greenAccent,
+                ),
               ),
-              RaisedButton.icon(
-                icon: Icon(Icons.account_box),
-                label: Text("Lista de Clientes"),
-                onPressed: (){},
-                color: Colors.greenAccent,
+              ButtonTheme(
+                minWidth: 200,
+                child: RaisedButton.icon(
+                  icon: Icon(Icons.account_box),
+                  label: Text("Lista de Clientes"),
+                  onPressed: (){},
+                  color: Colors.greenAccent,
+                ),
               ),
-              RaisedButton.icon(
-                icon: Icon(Icons.fastfood),
-                label: Text("Nuevo Pedido"),
-                onPressed: (){},
-                color: Colors.greenAccent,
-              )
+              ButtonTheme(
+                minWidth: 200,
+                child: RaisedButton.icon(
+                  icon: Icon(Icons.account_box),
+                  label: Text("Lista de Clientes"),
+                  onPressed: (){},
+                  color: Colors.greenAccent,
+                ),
+              ),
+              ButtonTheme(
+                minWidth: 200,
+                child: RaisedButton.icon(
+                  icon: Icon(Icons.fastfood),
+                  label: Text("Menu"),
+                  onPressed: (){Navigator.of(context).pushNamed('/menu');},
+                  color: Colors.greenAccent,
+                ),
+              ),
+              ButtonTheme(
+                minWidth: 200,
+                child: RaisedButton.icon(
+                  icon: Icon(Icons.assignment),
+                  label: Text("Nuevo Pedido"),
+                  onPressed: (){},
+                  color: Colors.greenAccent,
+                ),
+              ),
+                
             ],
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           )

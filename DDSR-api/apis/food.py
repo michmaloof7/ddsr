@@ -5,6 +5,8 @@ from database.swagger_models import food
 from database.marshmallow_models import NewFoodSchema, FoodSchema, ObjectIdField, Ingredients
 from marshmallow import Schema
 
+from apis.id_exchange import correct_id
+
 import requests
 
 
@@ -18,8 +20,9 @@ food = api.schema_model('Food', food)
 class foodList(Resource):
     @api.doc(description='Get all food', responses={200: ('food collection', [food])})
     def get(self):
-        return [{**fl, '_id': str(fl['_id'])}
-                for fl in Database().Get_Foods()]
+        allfoods = [{**fl, '_id': str(fl['_id'])} for fl in Database().Get_Foods()]
+        allfoods = correct_id(allfoods)
+        return allfoods
     
 #get food by id
 @api.route('/<string:food_id>')
@@ -29,8 +32,8 @@ class FoodById(Resource):
              responses={200: ('Returned food item', food),
                         404: 'Food item not found'})
     def get(self, food_id):
-        return [{**fd, '_id': str(fd['_id'])}
-                for fd in Database().Get_Food(food_id)][0]
+        food = [{**fd, '_id': str(fd['_id'])} for fd in Database().Get_Food(food_id)][0]
+        return food
 
 #get food by type
 @api.route('/type/<int:food_type>')
@@ -39,8 +42,8 @@ class FoodByType(Resource):
     @api.doc(description='Returns all the food items that share the same type',
              responses={200: ('Food by type collection', [food])})
     def get(self, food_type):
-        return [{**fbt, '_id':str(fbt['_id'])}
-                 for fbt in Database().Get_Food_Type(food_type)]
+        foodByType = [{**fbt, '_id':str(fbt['_id'])} for fbt in Database().Get_Food_Type(food_type)]
+        return FoodByType
 
 #add a food item
 @api.route('/add')

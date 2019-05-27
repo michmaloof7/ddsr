@@ -120,10 +120,14 @@ class Database():
     #Add an order
     def Add_Order(self, new_order):
         try:
-            self.order.insert_one(new_order)
+            #we check if the client associated exists
+            check = self.clients.find_one({'_id': ObjectId(new_order['client_id'])})
+            if check:
+                self.order.insert_one(new_order)
+            else:
+                return False
         except pymongo.errors.PyMongoError as e:
             return False
-        
         return True
         
     #Update an order

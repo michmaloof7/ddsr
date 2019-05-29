@@ -23,7 +23,7 @@ class BaseDrawer extends StatelessWidget{
             onTap: (){
               if(currentRoute == '/') return;
               Navigator.pop(context);
-              Navigator.of(context).pushNamed('/');
+              Navigator.of(context).popUntil(ModalRoute.withName("/"));
             }
           ),
           ListTile(
@@ -31,7 +31,7 @@ class BaseDrawer extends StatelessWidget{
             onTap: (){
               if(currentRoute == '/second') return;
               Navigator.pop(context);
-              Navigator.of(context).pushNamed('/archive');
+              Navigator.of(context).pushNamedAndRemoveUntil('/archive', ModalRoute.withName("/"));
             }
           ),
           ListTile(
@@ -39,7 +39,7 @@ class BaseDrawer extends StatelessWidget{
             onTap: (){
               if(currentRoute == '/third') return;
               Navigator.pop(context);
-              Navigator.of(context).pushNamed('/foods');
+              Navigator.of(context).pushNamedAndRemoveUntil('/foods', ModalRoute.withName("/"));
             }
           )
         ],

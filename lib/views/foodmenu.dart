@@ -120,11 +120,13 @@ class _FoodListState extends State<FoodList> {
                                         new Text("Ingredientes: "),
                                         new ListView.builder(
                                           shrinkWrap: true,
+                                          physics: AlwaysScrollableScrollPhysics(),
                                           itemCount: fooditem.ingredients.length,
                                           itemBuilder: (BuildContext context, int i) {
                                             final ingredient = fooditem.ingredients[i];
                                             return new Column(
                                                 children: <Widget>[
+                                                new Divider(),
                                                 new Row(
                                                   children: <Widget>[
                                                     Padding(
@@ -141,34 +143,10 @@ class _FoodListState extends State<FoodList> {
                                                 children: <Widget>[
                                                     Padding(
                                                       padding: EdgeInsets.all(8),
-                                                      child: Text("Cantidad: ")
+                                                      child: Text("Cantidad: "+ingredient.quantity.toString()+" "+ingredient.unit)
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text(ingredient.quantity.toString())
-                                                    )
                                                   ]
                                                 ),
-                                                new Row(
-                                                children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text("Tipo de unidad: ")
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text(ingredient.unit)
-                                                    )
-                                                  ]
-                                                ),
-                                                new Row(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text("- -")
-                                                    )
-                                                  ]
-                                                ) 
                                               ]
                                             );
                                           }

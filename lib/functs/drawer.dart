@@ -34,6 +34,14 @@ class BaseDrawer extends StatelessWidget{
               Navigator.of(context).pushNamed('/archive');
             }
           ),
+          ListTile(
+            title: Text('Third Page'),
+            onTap: (){
+              if(currentRoute == '/third') return;
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed('/foods');
+            }
+          )
         ],
       ),
     ));

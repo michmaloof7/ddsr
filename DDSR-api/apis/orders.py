@@ -18,8 +18,8 @@ client = api.schema_model('Client', client)
 class orderList(Resource):
     @api.doc(description='orders list', responses={200: ('Order collection', [order])})
     def get(self):
-        return [{**od, '_id': str(od['_id'])}
-                for od in Database().Get_Orders()]
+        allorders = [{**od, '_id': str(od['_id'])} for od in Database().Get_Orders()]
+        return allorders
 
 #get an order by its id
 @api.route('/<string:order_id>')
@@ -29,8 +29,8 @@ class clientById(Resource):
              responses={200: ('Returned order', order),
                         404: 'Food item not found'})
     def get(self, order_id):
-        return [{**odi, '_id': str(odi['_id'])}
-                for odi in Database().Get_Order(order_id)]
+        order = [{**odi, '_id': str(odi['_id'])} for odi in Database().Get_Order(order_id)]
+        return order
             
 #add an order
 @api.route('/add')

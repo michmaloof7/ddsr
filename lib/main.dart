@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ddsr/views/home.dart';
 import 'package:ddsr/views/archive.dart';
+import 'package:ddsr/views/foodmenu.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MyHome(),
-        '/archive': (context) => ArchivePage()
+        '/archive': (context) => ArchivePage(),
+        '/foods': (context) => FoodPage()
       },
     );
   }

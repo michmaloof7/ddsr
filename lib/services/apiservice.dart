@@ -33,13 +33,14 @@ var methods = {
 //-------- FOOD OPERATIONS -----------------
 
 //get all foods
-Future<Food> getAllFoods() async {
+Future<List<Food>> getAllFoods() async {
   final response = await http.get(url+collections['foods']+methods['get'], 
                                   headers: headers);
-
   //if we get a positive response parse the data
   if (response.statusCode == 200) {
-    return Food.fromJson(json.decode(response.body));
+    final jsonresponse = (json.decode(response.body) as List)
+                        .map((data) => new Food.fromJson(data)).toList();
+    return jsonresponse;
   }
   else {
     throw Exception('Failed to fetch all foods');

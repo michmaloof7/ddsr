@@ -76,102 +76,108 @@ class _FoodListState extends State<FoodList> {
                         ),
                         //All the food details
                         body: new Container(
-                          padding: const EdgeInsets.only(left:15.0),
+                          decoration: new BoxDecoration(boxShadow: [new BoxShadow(color: Colors.black,blurRadius: 85.0,),]),
+                          padding: const EdgeInsets.all(8.0),
                           alignment: Alignment.centerLeft,
-                          child: new Column(
-                            children: <Widget>[
-                              //the row for the food price
-                              new Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Precio: ')
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(fooditem.cost.toString())
-                                  ),
-                                ]
-                              ),
-                              //the row for the food type
-                              new Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Tipo de comida: ')
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(msg = fooditem.cost == 1 ? "Salado" : "Postre")
-                                  ),
-                                ]
-                              ),
-                              new Container(
-                                padding: const EdgeInsets.only(left:15.0),
-                                alignment: Alignment.centerLeft,
-                                child: //we need to iterate over the ingredients
-                                new Column(
+                          child: new Card(
+                            child:
+                              new Column(
+                              children: <Widget>[
+                                //the row for the food price
+                                new Row(
                                   children: <Widget>[
-                                    new Text("Ingredientes: "),
-                                    new ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: fooditem.ingredients.length,
-                                      itemBuilder: (BuildContext context, int i) {
-                                        final ingredient = fooditem.ingredients[i];
-                                        return new Column(
-                                            children: <Widget>[
-                                            new Row(
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: EdgeInsets.only(left:15, top: 10),
-                                                  child: Text("Ingrediente: ")
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left:15, top: 10),
-                                                  child: Text(ingredient.name)
-                                                )
-                                              ]
-                                            ),
-                                            new Row(
-                                            children: <Widget>[
-                                                Padding(
-                                                  padding: EdgeInsets.only(left:15, top: 10),
-                                                  child: Text("Cantidad: ")
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left:15, top: 10),
-                                                  child: Text(ingredient.quantity.toString())
-                                                )
-                                              ]
-                                            ),
-                                            new Row(
-                                            children: <Widget>[
-                                                Padding(
-                                                  padding: EdgeInsets.only(left:15, top: 10, bottom: 10),
-                                                  child: Text("Tipo de unidad: ")
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left:15, top: 10, bottom: 10),
-                                                  child: Text(ingredient.unit)
-                                                )
-                                              ]
-                                            ),
-                                            new Row(
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: EdgeInsets.all(20),
-                                                  child: Text("------------------")
-                                                )
-                                              ]
-                                            ) 
-                                          ]
-                                        );
-                                      }
-                                    )
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text('Precio: ')
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(fooditem.cost.toString())
+                                    ),
                                   ]
+                                ),
+                                //the row for the food type
+                                new Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text('Tipo de comida: ')
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(msg = fooditem.cost == 1 ? "Salado" : "Postre")
+                                    ),
+                                  ]
+                                ),
+                                new Container(
+                                  child: new Card(
+                                    child: 
+                                    //we need to iterate over the ingredients
+                                    new Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text("Ingredientes: "),
+                                        new ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: fooditem.ingredients.length,
+                                          itemBuilder: (BuildContext context, int i) {
+                                            final ingredient = fooditem.ingredients[i];
+                                            return new Column(
+                                                children: <Widget>[
+                                                new Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text("Ingrediente: ")
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text(ingredient.name)
+                                                    )
+                                                  ]
+                                                ),
+                                                new Row(
+                                                children: <Widget>[
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text("Cantidad: ")
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text(ingredient.quantity.toString())
+                                                    )
+                                                  ]
+                                                ),
+                                                new Row(
+                                                children: <Widget>[
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text("Tipo de unidad: ")
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text(ingredient.unit)
+                                                    )
+                                                  ]
+                                                ),
+                                                new Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text("- -")
+                                                    )
+                                                  ]
+                                                ) 
+                                              ]
+                                            );
+                                          }
+                                        )
+                                      ]
+                                    )
+                                  ) 
                                 )
-                              )
-                            ]
+                              ]
+                            )
                           )
                         )
                       )

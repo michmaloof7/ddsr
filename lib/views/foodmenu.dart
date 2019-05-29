@@ -14,7 +14,7 @@ class FoodPage extends StatelessWidget {
       ),
       drawer: BaseDrawer(),
       body: Center(
-        child: FoodList(),
+        child: SafeArea(child: FoodList()),
       )
     );
   }
@@ -120,7 +120,7 @@ class _FoodListState extends State<FoodList> {
                                         new Text("Ingredientes: "),
                                         new ListView.builder(
                                           shrinkWrap: true,
-                                          physics: AlwaysScrollableScrollPhysics(),
+                                          physics: NeverScrollableScrollPhysics(),
                                           itemCount: fooditem.ingredients.length,
                                           itemBuilder: (BuildContext context, int i) {
                                             final ingredient = fooditem.ingredients[i];

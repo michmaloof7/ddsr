@@ -12,6 +12,7 @@ class FoodPage extends StatelessWidget {
       appBar: AppBar(
         title: new Text('Lista de comidas'),
       ),
+      drawer: BaseDrawer(),
       body: Center(
         child: FoodList(),
       )
@@ -76,7 +77,7 @@ class _FoodListState extends State<FoodList> {
                         ),
                         //All the food details
                         body: new Container(
-                          decoration: new BoxDecoration(boxShadow: [new BoxShadow(color: Colors.black,blurRadius: 85.0,),]),
+                          decoration: new BoxDecoration(boxShadow: [new BoxShadow(color: Colors.green[300],blurRadius: 85.0,),]),
                           padding: const EdgeInsets.all(8.0),
                           alignment: Alignment.centerLeft,
                           child: new Card(

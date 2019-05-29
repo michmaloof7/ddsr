@@ -5,8 +5,8 @@ class ArchivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:  new Text('asdf')),
-      body: SafeArea(child: Text('second page')),
+      appBar: AppBar(title:  new Text('Lista de Pedidos')),
+      body: SafeArea(child: Text('Pedidos')),
       drawer: BaseDrawer(),
     );
   }

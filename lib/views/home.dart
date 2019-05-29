@@ -9,28 +9,62 @@ class MyHome extends StatelessWidget {
       drawer: BaseDrawer(),
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: <Widget>[
-              RaisedButton.icon(
-                icon: Icon(Icons.receipt),
-                label: Text("Registro de Pedidos"),
-                onPressed: (){Navigator.of(context).pushNamed('/archive');},
-                color: Colors.greenAccent,
-              ),
-              RaisedButton.icon(
-                icon: Icon(Icons.account_box),
-                label: Text("Lista de Clientes"),
-                onPressed: (){},
-                color: Colors.greenAccent,
-              ),
-              RaisedButton.icon(
-                icon: Icon(Icons.fastfood),
-                label: Text("Nuevo Pedido"),
-                onPressed: (){},
-                color: Colors.greenAccent,
+          child: Container(
+              margin: EdgeInsets.all(10.0),
+              child:
+                Column(
+                children: <Widget>[
+                  Card(
+                    color: Colors.grey[100],
+                    child: new InkWell(
+                      child: 
+                      new Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: RaisedButton.icon(
+                              icon: Icon(Icons.receipt),
+                              label: Text("Registro de Pedidos"),
+                              onPressed: (){Navigator.of(context).pushNamed('/archive');},
+                              color: Colors.grey[100],
+                        )
+                      ),
+                    )
+                  ),
+                  Card(
+                    color: Colors.grey[200],
+                    child: new InkWell(
+                      child: 
+                      new Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: RaisedButton.icon(
+                              icon: Icon(Icons.account_box),
+                              label: Text("Lista de Clientes"),
+                              onPressed: (){},
+                              color: Colors.grey[200],
+                        )
+                      ),
+                    )
+                  ),
+                  Card(
+                    color: Colors.grey[300],
+                    child: new InkWell(
+                      child: 
+                        new Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: 
+                            RaisedButton.icon(
+                              icon: Icon(Icons.fastfood),
+                              label: Text("Nuevo Pedido"),
+                              onPressed: (){},
+                              color: Colors.grey[300],
+                        )
+                      ),
+                    )
+                  ),
+                  
+                ],
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch
               )
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           )
         )
       ),

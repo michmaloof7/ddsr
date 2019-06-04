@@ -85,6 +85,14 @@ class _OrderListState extends State<OrderList> {
                                       children: <Widget>[
                                         Padding(
                                           padding: EdgeInsets.all(8.0),
+                                          child: Text('Fecha de Entrega: ' + orderitem.deadline),
+                                        )
+                                      ],
+                                    ),
+                                    new Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Text('Costo total: ' + totalcost(orderitem.items).toString())
                                         ),
                                       ]
@@ -108,83 +116,82 @@ class _OrderListState extends State<OrderList> {
                                     new Container(
                                       child: new Card(
                                         color: Colors.grey[100],
-                                  child:new Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 20, bottom: 10),
-                                        child: new Text("Items: "),
-                                      ),
-                                      
-                                      new ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: orderitem.items.length,
-                                        itemBuilder: (BuildContext context, int i) {
-                                          final item = orderitem.items[i];
-                                          int inglistlength;
-                                          if(item.ingredients == null){
-                                            inglistlength = 1;
-                                          } else {
-                                            inglistlength = item.ingredients.length;
-                                          }
-                                          return new Column(
-                                            children: <Widget>[
-                                              new ExpansionTile(
-                                                title: Text("• " + item.name),
-                                                children: <Widget>[
-                                                  new ListView.builder(
-                                                    shrinkWrap: true,
-                                                    physics: NeverScrollableScrollPhysics(),
-                                                    itemCount: inglistlength,
-                                                    itemBuilder: (BuildContext context, int i) {
-                                                      if(inglistlength==1){
-                                                        return Center(
-                                                          child: Padding(
-                                                            padding: EdgeInsets.all(20),
-                                                            child: Text("Sin ingredientes")
-                                                          )
-                                                        );
-                                                      }
-                                                      final ingredient = item.ingredients[i];
-                                                      return new Column(
-                                                        children: <Widget>[
-                                                        new Divider(),
-                                                        new Row(
-                                                          children: <Widget>[
-                                                            Padding(
-                                                              padding: EdgeInsets.all(8),
-                                                              child: Text("Ingrediente: ")
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets.all(8),
-                                                              child: Text(ingredient.name)
-                                                            )
-                                                          ]
-                                                        ),
-                                                        new Row(
-                                                          children: <Widget>[
-                                                            Padding(
-                                                              padding: EdgeInsets.all(8),
-                                                              child: Text("Cantidad: "+ingredient.quantity.toString()+" "+ingredient.unit)
-                                                            ),
-                                                          ]
-                                                        ),
-                                                      ]
-                                                    );
-                                                    }
-                                                  )
-                                                ],
-                                              )
-                                            ]
-                                          );
-                                        }
+                                        child: new Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.only(top: 20, bottom: 10),
+                                              child: new Text("Items: "),
+                                            ),
+                                            new ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              itemCount: orderitem.items.length,
+                                              itemBuilder: (BuildContext context, int i) {
+                                                final item = orderitem.items[i];
+                                                int inglistlength;
+                                                if(item.ingredients == null){
+                                                  inglistlength = 1;
+                                                } else {
+                                                  inglistlength = item.ingredients.length;
+                                                }
+                                                return new Column(
+                                                  children: <Widget>[
+                                                    new ExpansionTile(
+                                                      title: Text("• " + item.name),
+                                                      children: <Widget>[
+                                                        new ListView.builder(
+                                                          shrinkWrap: true,
+                                                          physics: NeverScrollableScrollPhysics(),
+                                                          itemCount: inglistlength,
+                                                          itemBuilder: (BuildContext context, int i) {
+                                                            if(inglistlength==1){
+                                                              return Center(
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.all(20),
+                                                                  child: Text("Sin ingredientes")
+                                                                )
+                                                              );
+                                                            }
+                                                            final ingredient = item.ingredients[i];
+                                                            return new Column(
+                                                              children: <Widget>[
+                                                                new Divider(),
+                                                                new Row(
+                                                                  children: <Widget>[
+                                                                    Padding(
+                                                                      padding: EdgeInsets.all(8),
+                                                                      child: Text("Ingrediente: ")
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.all(8),
+                                                                      child: Text(ingredient.name)
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                new Row(
+                                                                  children: <Widget>[
+                                                                    Padding(
+                                                                      padding: EdgeInsets.all(8),
+                                                                      child: Text("Cantidad: "+ingredient.quantity.toString()+" "+ingredient.unit)
+                                                                    ),
+                                                                  ]
+                                                                ),
+                                                              ]
+                                                            );
+                                                          }
+                                                        )
+                                                      ],
+                                                    )
+                                                  ]
+                                                );
+                                              }
+                                            )
+                                          ]
+                                        )
                                       )
-                                    ]
-                                  )
-                                )
-                              )
-                            ],
+                                    )
+                                  ],
                                 )
                               ),
                             )

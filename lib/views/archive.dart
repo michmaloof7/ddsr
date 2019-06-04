@@ -26,6 +26,7 @@ class OrderList extends StatefulWidget {
 class _OrderListState extends State<OrderList> {
   
   Future setall;
+  Future setclient;
   List<Client> clients;
   List<Order> orderlist;
   List<String> clientsnames = [];
@@ -34,7 +35,8 @@ class _OrderListState extends State<OrderList> {
   @override
   void initState() {
     super.initState();
-    setall = getAllOrders(); 
+    setall = getAllOrders();
+    setclient = getAllClients(); 
   }
 
   @override
@@ -42,9 +44,15 @@ class _OrderListState extends State<OrderList> {
     return new FutureBuilder(
       future: setall,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if(!snapshot.hasError){
+        if(snapshot.hasData){
           orderlist = snapshot.data;
-          return new ListView.builder(
+          return new FutureBuilder(
+            future: setclient,
+            builder: (BuildContext innercontext, AsyncSnapshot innersnapshot) {
+              if(innersnapshot.hasData) {
+                clients = innersnapshot.data;
+                setnames();
+                return new ListView.builder(
             itemCount: orderlist.length,
             itemBuilder: (BuildContext context, int position) {
               final orderitem = orderlist[position];
@@ -98,6 +106,15 @@ class _OrderListState extends State<OrderList> {
               );
             }
           );
+              }  else if (snapshot.hasError) {
+                 return new Text('Error fetching clients');
+              } else {
+                return new CircularProgressIndicator();
+              }
+            }
+          );
+        } else if (snapshot.hasError) {
+          return new Text('Error fetching orders');
         } else {
           return new CircularProgressIndicator();
         }
@@ -112,16 +129,6 @@ class _OrderListState extends State<OrderList> {
       sum += item.cost;
     }
     return sum;
-  }
-
-  Future initialize() async{
-    await getAllOrders().then((value) {
-      orderlist = value;
-    });
-    await getAllClients().then((value) {
-      clients = value;
-    });
-    setnames();
   }
 
   void setnames() {

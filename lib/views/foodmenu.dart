@@ -10,12 +10,10 @@ class FoodPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text('Lista de comidas'),
+        title: new Text('Lista de Comidas'),
       ),
       drawer: BaseDrawer(),
-      body: Center(
-        child: SafeArea(child: FoodList()),
-      )
+      body: SafeArea(child: Center(child: FoodList()))
     );
   }
 }
@@ -81,8 +79,7 @@ class _FoodListState extends State<FoodList> {
                           padding: const EdgeInsets.all(8.0),
                           alignment: Alignment.centerLeft,
                           child: new Card(
-                            child:
-                              new Column(
+                            child:new Column(
                               children: <Widget>[
                                 //the row for the food price
                                 new Row(

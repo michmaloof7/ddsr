@@ -95,7 +95,44 @@ class _OrderListState extends State<OrderList> {
                                     child: Text('Nombre cliente: ' + clientsnames[position])
                                   ),
                                 ]
-                              )
+                              ),
+                              new Container(
+                                  child: new Card(
+                                    child: 
+                                    //we need to iterate over the ingredients
+                                    new Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text("Items: "),
+                                        new ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: orderitem.items.length,
+                                          itemBuilder: (BuildContext context, int i) {
+                                            final ingredient = orderitem.items[i];
+                                            return new Column(
+                                                children: <Widget>[
+                                                new Divider(),
+                                                new Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text("Item: ")
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(8),
+                                                      child: Text(ingredient.name)
+                                                    )
+                                                  ]
+                                                ),
+                                              ]
+                                            );
+                                          }
+                                        )
+                                      ]
+                                    )
+                                  ) 
+                                )
                             ],
                           )
                         ),

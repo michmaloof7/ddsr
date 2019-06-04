@@ -99,11 +99,11 @@ class Database():
             return True
 
     #Delete a client
-    def Delete_Client(self, id, data):
+    def Delete_Client(self, id):
         client = self.clients.find_one({'_id': ObjectId(id)})
         if not client:
             return False
-        elif not check:
+        elif client:
             self.clients.delete_one({'_id': ObjectId(id)})
             return True
     
@@ -115,7 +115,7 @@ class Database():
     
     #Get an order by id
     def Get_Order(self, id):
-        return self.order.find_one({'_id': ObjectId(id)})
+        return self.order.find({'_id': ObjectId(id)})
 
     #Add an order
     def Add_Order(self, new_order):

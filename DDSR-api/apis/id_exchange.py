@@ -1,3 +1,6 @@
+from datetime import datetime
+import json
+
 #This file serves the purpose of changing the id keys
 
 def correct_id(dictionary):
@@ -6,3 +9,11 @@ def correct_id(dictionary):
         del item['_id']
     
     return dictionary
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, datetime):
+            return o.isoformat()
+            
+        return json.JSONEncoder.default(self, o)
+

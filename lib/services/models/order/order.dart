@@ -4,6 +4,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import '../food/food.dart';
+import '../client/client.dart';
 import 'dart:core';
 
 part 'order.g.dart';

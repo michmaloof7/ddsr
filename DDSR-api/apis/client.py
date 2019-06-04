@@ -31,8 +31,9 @@ class clientById(Resource):
              responses={200: ('fetched client', client),
                         404: 'Client not found'})
     def get(self, client_id):
-        client = [{**cbi, '_id': str(cbi['_id'])} for cbi in Database().Get_Client(client_id)][0] 
-        return  client
+        client = [{**cbi, '_id': str(cbi['_id'])} for cbi in Database().Get_Client(client_id)]
+        client = correct_id(client)
+        return  client[0]
 
 #add a client 
 @api.route('/add')
@@ -58,7 +59,7 @@ class UpdateClient(Resource):
     @api.doc(description='Updates a client',
              responses={201: 'Client updated',
                         404: 'Error updating client'})
-    def put(self,food_id):
+    def put(self,client_id):
         doit = False
         update_client, errors = NewClientSchema().load(request.get_json(force=True) or {})
         if errors:

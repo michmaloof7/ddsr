@@ -13,7 +13,7 @@ def correct_id(dictionary):
 class DateTimeEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, datetime):
-            return o.isoformat()
+            return o.strftime('%Y/%m/%d')
             
         return json.JSONEncoder.default(self, o)
 

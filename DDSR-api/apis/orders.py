@@ -28,7 +28,7 @@ class orderList(Resource):
         allorders = correct_id(allorders)
         #iterate over it and change all the dates to string 
         for order in allorders:
-            order['deadline'] = json.dumps(order['deadline'], cls=DateTimeEncoder)
+            order['deadline'] = json.dumps(order['deadline'], cls=DateTimeEncoder).strip('"')
         
         return allorders
 
@@ -44,7 +44,7 @@ class clientById(Resource):
         order = correct_id(order)
 
         for ordi in order:
-            ordi['deadline'] = json.dumps(ordi['deadline'], cls=DateTimeEncoder)
+            ordi['deadline'] = json.dumps(ordi['deadline'], cls=DateTimeEncoder).strip('"')
         return order[0]
             
 #add an order

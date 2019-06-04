@@ -53,98 +53,149 @@ class _OrderListState extends State<OrderList> {
                 clients = innersnapshot.data;
                 setnames();
                 return new ListView.builder(
-            itemCount: orderlist.length,
-            itemBuilder: (BuildContext context, int position) {
-              final orderitem = orderlist[position];
-              return new Card(
-                child: new ExpansionPanelList(
-                  expansionCallback: (int index, bool status) {
-                    //know which fooditems are expanded or not
-                    setState(() {
-                      _activeMeterIndex = _activeMeterIndex == position ? null : position;
-                    });
-                  },
-                  children: [
-                    new ExpansionPanel(
-                      isExpanded: _activeMeterIndex == position,
-                      headerBuilder: (BuildContext context, bool isExpanded) =>
-                      new Container(
-                        padding: const EdgeInsets.only(left:15.0),
-                        alignment: Alignment.centerLeft,
-                        child: new Text("Orden "+orderitem.deadline)
-                      ),
-                      body: new Container(
-                        decoration: new BoxDecoration(boxShadow: [new BoxShadow(color: Colors.green[300],blurRadius: 85.0,),]),
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.centerLeft,
-                        child: new Card(
-                          child: new Column(
-                            children: <Widget>[
-                              new Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Costo total: ' + totalcost(orderitem.items).toString())
-                                  ),
-                                ]
-                              ),
-                              new Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Nombre cliente: ' + clientsnames[position])
-                                  ),
-                                ]
-                              ),
-                              new Container(
-                                  child: new Card(
-                                    child: 
-                                    //we need to iterate over the ingredients
-                                    new Column(
-                                      mainAxisSize: MainAxisSize.min,
+                  itemCount: orderlist.length,
+                  itemBuilder: (BuildContext context, int position) {
+                    final orderitem = orderlist[position];
+                    orderitem.items.sort((a, b) {return a.name.toLowerCase().compareTo(b.name.toLowerCase());});
+                    return new Card(
+                      child: new ExpansionPanelList(
+                        expansionCallback: (int index, bool status) {
+                          //know which fooditems are expanded or not
+                          setState(() {
+                            _activeMeterIndex = _activeMeterIndex == position ? null : position;
+                          });
+                        },
+                        children: [
+                          new ExpansionPanel(
+                            isExpanded: _activeMeterIndex == position,
+                            headerBuilder: (BuildContext context, bool isExpanded) =>
+                            new Container(
+                              padding: const EdgeInsets.only(left:15.0),
+                              alignment: Alignment.centerLeft,
+                              child: new Text("Orden "+orderitem.deadline)
+                            ),
+                            body: new Container(
+                              decoration: new BoxDecoration(boxShadow: [new BoxShadow(color: Colors.green[300],blurRadius: 85.0,),]),
+                              padding: const EdgeInsets.all(8.0),
+                              alignment: Alignment.centerLeft,
+                              child: new Card(
+                                child: new Column(
+                                  children: <Widget>[
+                                    new Row(
                                       children: <Widget>[
-                                        new Text("Items: "),
-                                        new ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: orderitem.items.length,
-                                          itemBuilder: (BuildContext context, int i) {
-                                            final ingredient = orderitem.items[i];
-                                            return new Column(
-                                                children: <Widget>[
-                                                new Divider(),
-                                                new Row(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text("Item: ")
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text(ingredient.name)
-                                                    )
-                                                  ]
-                                                ),
-                                              ]
-                                            );
-                                          }
-                                        )
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Costo total: ' + totalcost(orderitem.items).toString())
+                                        ),
                                       ]
-                                    )
-                                  ) 
+                                    ),
+                                    new Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Nombre cliente: ' + clientsnames[position])
+                                        ),
+                                      ]
+                                    ),
+                                    new Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Estado: ' + (orderitem.status == 0 ? "No entregado" : "Entregado"))
+                                        ),
+                                      ]
+                                    ),
+                                    new Container(
+                                      child: new Card(
+                                        color: Colors.grey[100],
+                                  child:new Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 20, bottom: 10),
+                                        child: new Text("Items: "),
+                                      ),
+                                      
+                                      new ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: orderitem.items.length,
+                                        itemBuilder: (BuildContext context, int i) {
+                                          final item = orderitem.items[i];
+                                          int inglistlength;
+                                          if(item.ingredients == null){
+                                            inglistlength = 1;
+                                          } else {
+                                            inglistlength = item.ingredients.length;
+                                          }
+                                          return new Column(
+                                            children: <Widget>[
+                                              new ExpansionTile(
+                                                title: Text("• " + item.name),
+                                                children: <Widget>[
+                                                  new ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics: NeverScrollableScrollPhysics(),
+                                                    itemCount: inglistlength,
+                                                    itemBuilder: (BuildContext context, int i) {
+                                                      if(inglistlength==1){
+                                                        return Center(
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(20),
+                                                            child: Text("Sin ingredientes")
+                                                          )
+                                                        );
+                                                      }
+                                                      final ingredient = item.ingredients[i];
+                                                      return new Column(
+                                                        children: <Widget>[
+                                                        new Divider(),
+                                                        new Row(
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding: EdgeInsets.all(8),
+                                                              child: Text("Ingrediente: ")
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets.all(8),
+                                                              child: Text(ingredient.name)
+                                                            )
+                                                          ]
+                                                        ),
+                                                        new Row(
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding: EdgeInsets.all(8),
+                                                              child: Text("Cantidad: "+ingredient.quantity.toString()+" "+ingredient.unit)
+                                                            ),
+                                                          ]
+                                                        ),
+                                                      ]
+                                                    );
+                                                    }
+                                                  )
+                                                ],
+                                              )
+                                            ]
+                                          );
+                                        }
+                                      )
+                                    ]
+                                  )
                                 )
+                              )
                             ],
+                                )
+                              ),
+                            )
                           )
-                        ),
-                      )
-                    )
-                  ],
-                ),
-              );
-            }
-          );
-              }  else if (snapshot.hasError) {
-                 return new Text('Error fetching clients');
+                        ],
+                      ),
+                    );
+                  }
+                );
+              }else if (snapshot.hasError) {
+                return new Text('Error fetching clients');
               } else {
                 return new CircularProgressIndicator();
               }

@@ -24,22 +24,25 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
+  
+  Future setall;
+  List<Client> clients;
   List<Order> orderlist;
-  Future getorders;
+  List<String> clientsnames = [];
   int _activeMeterIndex;
 
   @override
   void initState() {
     super.initState();
-    getorders = getAllOrders();
+    setall = getAllOrders(); 
   }
 
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
-      future: getorders,
+      future: setall,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if(snapshot.hasData){
+        if(!snapshot.hasError){
           orderlist = snapshot.data;
           return new ListView.builder(
             itemCount: orderlist.length,
@@ -73,7 +76,15 @@ class _OrderListState extends State<OrderList> {
                                 children: <Widget>[
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text('Precio: ')
+                                    child: Text('Costo total: ' + totalcost(orderitem.items).toString())
+                                  ),
+                                ]
+                              ),
+                              new Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Nombre cliente: ' + clientsnames[position])
                                   ),
                                 ]
                               )
@@ -87,10 +98,39 @@ class _OrderListState extends State<OrderList> {
               );
             }
           );
-        } else{
+        } else {
           return new CircularProgressIndicator();
         }
       }
     );
+  }
+
+  //Function to get the total cost of the orders
+  double totalcost(items) {
+    double sum = 0.0;
+    for(Food item in items){
+      sum += item.cost;
+    }
+    return sum;
+  }
+
+  Future initialize() async{
+    await getAllOrders().then((value) {
+      orderlist = value;
+    });
+    await getAllClients().then((value) {
+      clients = value;
+    });
+    setnames();
+  }
+
+  void setnames() {
+    for(Order order in orderlist) {
+      for(Client client in clients) {
+        if(client.id == order.client_id) {
+          clientsnames.add(client.name);
+        }
+      }
+    }
   }
 }

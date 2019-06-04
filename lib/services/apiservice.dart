@@ -107,12 +107,14 @@ Future<http.Response> deleteFood(String id) async {
 //--------- CLIENT OPERATIONS -----------
 
 //get all clients
-Future<Client> getAllClients() async {
+Future<List<Client>> getAllClients() async {
   final response = await http.get(url+collections['clients']+methods['get'],
                                   headers: headers);
   //if we get a positive response parse the data
   if (response.statusCode == 200) {
-    return Client.fromJson(json.decode(response.body));
+    final jsonresponse = (json.decode(response.body) as List)
+                        .map((data) => new Client.fromJson(data)).toList();
+    return jsonresponse;
   }
   else {
     throw Exception('Failed to fetch all foods');

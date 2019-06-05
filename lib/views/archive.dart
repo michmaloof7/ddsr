@@ -2,6 +2,7 @@ import 'package:ddsr/services/apiservice.dart';
 import 'package:ddsr/services/models/order/order.dart';
 import 'package:ddsr/services/models/food/food.dart';
 import 'package:ddsr/services/models/client/client.dart';
+import 'package:ddsr/views/editorder.dart';
 import 'package:flutter/material.dart';
 import 'package:ddsr/functs/drawer.dart';
 
@@ -182,14 +183,30 @@ class _OrderListState extends State<OrderList> {
                                                           }
                                                         )
                                                       ],
-                                                    )
+                                                    ),
                                                   ]
                                                 );
                                               }
-                                            )
+                                            ),
                                           ]
                                         )
                                       )
+                                    ),
+                                    new Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: new FlatButton(
+                                            textColor: Colors.green,
+                                            child: Text("EDITAR"),
+                                            onPressed: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditOrder(order: orderitem, clientlist: clients)));
+                                            },
+                                          )
+                                        )
+                                        
+                                      ],
                                     )
                                   ],
                                 )

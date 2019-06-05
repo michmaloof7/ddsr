@@ -23,23 +23,23 @@ class BaseDrawer extends StatelessWidget{
             onTap: (){
               if(currentRoute == '/') return;
               Navigator.pop(context);
-              Navigator.of(context).pushNamed('/');
+              Navigator.of(context).popUntil(ModalRoute.withName("/"));
             }
           ),
           ListTile(
             title: Text('Pedidos'),
             onTap: (){
-              if(currentRoute == '/second') return;
+              if(currentRoute == '/archive') return;
               Navigator.pop(context);
-              Navigator.of(context).pushNamed('/archive');
+              Navigator.of(context).pushNamedAndRemoveUntil('/archive', ModalRoute.withName("/"));
             }
           ),
           ListTile(
             title: Text('Comidas'),
             onTap: (){
-              if(currentRoute == '/third') return;
+              if(currentRoute == '/foods') return;
               Navigator.pop(context);
-              Navigator.of(context).pushNamed('/foods');
+              Navigator.of(context).pushNamedAndRemoveUntil('/foods', ModalRoute.withName("/"));
             }
           )
         ],

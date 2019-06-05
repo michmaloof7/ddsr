@@ -32,8 +32,9 @@ class FoodById(Resource):
              responses={200: ('Returned food item', food),
                         404: 'Food item not found'})
     def get(self, food_id):
-        food = [{**fd, '_id': str(fd['_id'])} for fd in Database().Get_Food(food_id)][0]
-        return food
+        food = [{**fd, '_id': str(fd['_id'])} for fd in Database().Get_Food(food_id)]
+        food = correct_id(food)
+        return food[0]
 
 #get food by type
 @api.route('/type/<int:food_type>')
@@ -43,7 +44,8 @@ class FoodByType(Resource):
              responses={200: ('Food by type collection', [food])})
     def get(self, food_type):
         foodByType = [{**fbt, '_id':str(fbt['_id'])} for fbt in Database().Get_Food_Type(food_type)]
-        return FoodByType
+        foodByType = correct_id(foodByType)
+        return foodByType
 
 #add a food item
 @api.route('/add')

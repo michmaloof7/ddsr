@@ -10,12 +10,10 @@ class FoodPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text('Lista de comidas'),
+        title: new Text('Lista de Comidas'),
       ),
       drawer: BaseDrawer(),
-      body: Center(
-        child: FoodList(),
-      )
+      body: SafeArea(child: Center(child: FoodList()))
     );
   }
 }
@@ -81,8 +79,7 @@ class _FoodListState extends State<FoodList> {
                           padding: const EdgeInsets.all(8.0),
                           alignment: Alignment.centerLeft,
                           child: new Card(
-                            child:
-                              new Column(
+                            child:new Column(
                               children: <Widget>[
                                 //the row for the food price
                                 new Row(
@@ -120,11 +117,13 @@ class _FoodListState extends State<FoodList> {
                                         new Text("Ingredientes: "),
                                         new ListView.builder(
                                           shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
                                           itemCount: fooditem.ingredients.length,
                                           itemBuilder: (BuildContext context, int i) {
                                             final ingredient = fooditem.ingredients[i];
                                             return new Column(
                                                 children: <Widget>[
+                                                new Divider(),
                                                 new Row(
                                                   children: <Widget>[
                                                     Padding(
@@ -141,34 +140,10 @@ class _FoodListState extends State<FoodList> {
                                                 children: <Widget>[
                                                     Padding(
                                                       padding: EdgeInsets.all(8),
-                                                      child: Text("Cantidad: ")
+                                                      child: Text("Cantidad: "+ingredient.quantity.toString()+" "+ingredient.unit)
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text(ingredient.quantity.toString())
-                                                    )
                                                   ]
                                                 ),
-                                                new Row(
-                                                children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text("Tipo de unidad: ")
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text(ingredient.unit)
-                                                    )
-                                                  ]
-                                                ),
-                                                new Row(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text("- -")
-                                                    )
-                                                  ]
-                                                ) 
                                               ]
                                             );
                                           }

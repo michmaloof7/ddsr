@@ -53,8 +53,8 @@ class MyHome extends StatelessWidget {
                           child: 
                             RaisedButton.icon(
                               icon: Icon(Icons.fastfood),
-                              label: Text("Nuevo Pedido"),
-                              onPressed: (){},
+                              label: Text("Menu"),
+                              onPressed: (){Navigator.of(context).pushNamed('/foods');},
                               color: Colors.grey[300],
                         )
                       ),

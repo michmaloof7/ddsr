@@ -39,6 +39,7 @@ class DateField(fields.Field):
             if value:
                 return parser.parse(value)
             return datetime.now()
+
         except ValueError:
             raise ValidationError("The String doesn't have a valid ISO format for date.")
 
@@ -84,13 +85,13 @@ class FoodFields(fields.Field):
 class OrderSchema(Schema):
     _id = ObjectIdField(required=True)
     client_id = ObjectIdField(required=True)
-    dead_line = DateField(required=True)
+    deadline = DateField(required=True)
     items = fields.List(FoodFields(), required=True)
     status = fields.Integer(required=True)
 
 #schema for new orders
 class NewOrderSchema(Schema):
     client_id = ObjectIdField(required=True)
-    dead_line = DateField(required=True)
+    deadline = DateField(required=True)
     items = fields.List(FoodFields(), required=True)
     status = fields.Integer(required=True)

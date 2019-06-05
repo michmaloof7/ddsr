@@ -1,3 +1,4 @@
+import 'package:ddsr/views/editorder.dart';
 import 'package:flutter/material.dart';
 import 'package:ddsr/views/home.dart';
 import 'package:ddsr/views/archive.dart';
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MyHome(),
         '/archive': (context) => ArchivePage(),
-        '/foods': (context) => FoodPage()
+        '/foods': (context) => FoodPage(),
+        '/editorder': (context) => EditOrder()
       },
     );
   }
